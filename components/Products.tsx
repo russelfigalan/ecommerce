@@ -5,6 +5,7 @@ import Image from "next/image";
 export default function Products({products}: ProductListData) {
 
     const productList = products;
+    console.log(productList)
 
   return (
     <>
