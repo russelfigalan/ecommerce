@@ -1,8 +1,11 @@
+"use client";
+
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaFacebook } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface UserDropdownProps {
   isOpen: boolean;
@@ -10,6 +13,11 @@ interface UserDropdownProps {
 
 export default function UserDropdown({ isOpen }: UserDropdownProps) {
   const userDropdownRef = useRef(null);
+  const router = useRouter();
+
+  const login_route = () => {
+    router.push("/login");
+  };
 
   useGSAP(
     () => {
@@ -40,10 +48,13 @@ export default function UserDropdown({ isOpen }: UserDropdownProps) {
     <>
       <div
         ref={userDropdownRef}
-        className="w-fit h-0 bg-white font-normal absolute top-[100%] right-0 overflow-hidden rounded-2xl border border-gray-200 z-50"
+        className="w-fit h-0 bg-white font-normal absolute top-[100%] right-0 overflow-hidden hidden rounded-2xl border border-gray-200 z-50"
       >
         <div className="p-[20px] flex flex-col gap-3">
-          <button className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] whitespace-nowrap cursor-pointer">
+          <button
+            onClick={login_route}
+            className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] whitespace-nowrap cursor-pointer"
+          >
             Continue with Email
           </button>
           <div className="flex items-center-safe text-center">

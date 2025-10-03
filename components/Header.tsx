@@ -84,21 +84,19 @@ export default function Header() {
           </div>
           <div className="relative p-[10px] bg-gray-200 rounded-full">
             <ShoppingCart color="#383838" />
-            <span className="absolute px-2 right-[-10px] top-[-9px] bg-[#a11a1a] text-white rounded-full">
+            <span className="absolute px-2 right-[-10px] top-[-9px] bg-[#960000] text-white rounded-full">
               0
             </span>
           </div>
         </div>
         <nav className="flex justify-center-safe items-center-safe gap-5 h-[2.5rem] text-white bg-[#005e5e] font-medium">
-          <Link href="/" className="">
-            <button
-              onClick={toggleSideBar}
-              className="flex justify-center-safe items-center-safe gap-[2px] cursor-pointer"
-            >
-              <Menu size={16} />
-              All
-            </button>
-          </Link>
+          <button
+            onClick={toggleSideBar}
+            className="flex justify-center-safe items-center-safe gap-[2px] cursor-pointer"
+          >
+            <Menu size={16} />
+            All
+          </button>
           <Link
             href="/products"
             className="h-full px-2 place-content-center-safe hover:bg-[#04ffff2a]"
