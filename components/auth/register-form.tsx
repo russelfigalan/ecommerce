@@ -27,9 +27,10 @@ import { Input } from "@/components/ui/input";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { register } from "@/actions/register";
-import { useState, startTransition } from "react";
+import { useState, useTransition } from "react";
 
 export const RegisterForm = () => {
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -70,7 +71,12 @@ export const RegisterForm = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="email@example.com" />
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        value={field.value ?? ""}
+                        placeholder="John Cena"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -85,6 +91,8 @@ export const RegisterForm = () => {
                     <FormControl>
                       <Input
                         {...field}
+                        disabled={isPending}
+                        value={field.value ?? ""}
                         placeholder="email@example.com"
                         type="email"
                       />
@@ -102,6 +110,8 @@ export const RegisterForm = () => {
                     <FormControl>
                       <Input
                         {...field}
+                        disabled={isPending}
+                        value={field.value ?? ""}
                         placeholder="********"
                         type="password"
                       />
@@ -112,7 +122,7 @@ export const RegisterForm = () => {
               />
               <FormError message={error} />
               <FormSuccess message={success} />
-              <Button type="submit" className="w-full">
+              <Button disabled={isPending} type="submit" className="w-full">
                 Register
               </Button>
             </form>
