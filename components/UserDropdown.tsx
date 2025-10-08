@@ -6,6 +6,8 @@ import { useGSAP } from "@gsap/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaFacebook } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface UserDropdownProps {
   isOpen: boolean;
@@ -44,6 +46,10 @@ export default function UserDropdown({ isOpen }: UserDropdownProps) {
     { dependencies: [isOpen], scope: userDropdownRef }
   );
 
+  const onClick = (provider: "google" | "github" | "facebook") => {
+    signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+  };
+
   return (
     <>
       <div
@@ -62,13 +68,22 @@ export default function UserDropdown({ isOpen }: UserDropdownProps) {
             <span className="mx-2">or</span>
             <hr className="flex-1 border-2 border-t-0 border-gray-300" />
           </div>
-          <button className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] cursor-pointer">
+          <button
+            onClick={() => onClick("google")}
+            className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] cursor-pointer"
+          >
             <FcGoogle />
           </button>
-          <button className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] cursor-pointer">
+          <button
+            onClick={() => onClick("github")}
+            className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] cursor-pointer"
+          >
             <FaGithub />
           </button>
-          <button className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] cursor-pointer">
+          <button
+            onClick={() => onClick("facebook")}
+            className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] cursor-pointer"
+          >
             <FaFacebook style={{ color: "#1877F2" }} />
           </button>
         </div>

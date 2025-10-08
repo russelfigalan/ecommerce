@@ -28,11 +28,17 @@ import { login } from "@/actions/login";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already registered. Please login with your email and password."
+      : searchParams.get("error") || "";
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -49,7 +55,7 @@ export const LoginForm = () => {
     startTransition(() => {
       login(values).then((data) => {
         setError(data?.error || "");
-        // setSuccess(data?.success || "");
+        setSuccess(data?.success || "");
       });
     });
   };
@@ -102,7 +108,7 @@ export const LoginForm = () => {
                   </FormItem>
                 )}
               />
-              <FormError message={error} />
+              <FormError message={error || urlError} />
               <FormSuccess message={success} />
               <Button disabled={isPending} type="submit" className="w-full">
                 Login
