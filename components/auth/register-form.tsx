@@ -129,7 +129,7 @@ export const RegisterForm = () => {
           </Form>
         </CardContent>
         <CardFooter>
-          <Button variant={"link"}>
+          <Button variant={"link"} asChild>
             <Link href={"/login"}>{`Already have an account?`}</Link>
           </Button>
         </CardFooter>

@@ -35,7 +35,10 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       verificationToken.token
     );
 
-    return { success: "Confirmation email sent!" };
+    return {
+      success:
+        "Please confirm your email. A confirmation email was sent to your email address.",
+    };
   }
 
   try {

@@ -14,7 +14,7 @@ import Link from "next/link";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas";
 import {
   Form,
   FormControl,
@@ -24,36 +24,32 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login } from "@/actions/login";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
+import { newPassword } from "@/actions/new-password";
 
-export const LoginForm = () => {
+export const NewPasswordForm = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const searchParams = useSearchParams();
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email already registered. Please login with your email and password."
-      : searchParams.get("error") || "";
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
+      newPassword(values, token).then((data) => {
         setError(data?.error || "");
         setSuccess(data?.success || "");
       });
@@ -64,31 +60,16 @@ export const LoginForm = () => {
     <>
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle className="fold-bold text-center">Log in</CardTitle>
-          <CardDescription className="">Welcome back</CardDescription>
+          <CardTitle className="fold-bold text-center">
+            Create New Password
+          </CardTitle>
+          <CardDescription className="text-center">
+            Please fill in the boxes
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        value={field.value ?? ""}
-                        placeholder="email@example.com"
-                        type="email"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="password"
@@ -100,34 +81,25 @@ export const LoginForm = () => {
                         {...field}
                         disabled={isPending}
                         value={field.value ?? ""}
-                        placeholder="********"
+                        placeholder="******"
                         type="password"
                       />
                     </FormControl>
-                    <Button
-                      disabled={isPending}
-                      size={"sm"}
-                      variant={"link"}
-                      asChild
-                      className="px-0"
-                    >
-                      <Link href={"/reset-password"}>Forgot password?</Link>
-                    </Button>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormError message={error || urlError} />
+              <FormError message={error} />
               <FormSuccess message={success} />
               <Button disabled={isPending} type="submit" className="w-full">
-                Login
+                Change Password
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
           <Button variant={"link"} asChild>
-            <Link href={"/register"}>{`Don't have an account?`}</Link>
+            <Link href={"/login"}>Back to login</Link>
           </Button>
         </CardFooter>
       </Card>
