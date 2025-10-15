@@ -1,20 +1,20 @@
-import { auth, signOut } from "@/auth";
+"use client";
 
-export default async function Dashboard() {
-  const session = await auth();
+// import { useCurrentUser } from "@/hooks/use-current-user";
+import { logout } from "@/actions/logout";
+
+export default function Dashboard() {
+  // const user = useCurrentUser();
+
+  const onClick = () => {
+    logout();
+  };
 
   return (
     <>
-      {JSON.stringify(session)}
-      <form
-        action={async () => {
-          "use server";
-
-          await signOut({ redirectTo: "/" });
-        }}
-      >
-        <button>Sign Out</button>
-      </form>
+      <button onClick={onClick} type="submit">
+        Sign Out
+      </button>
     </>
   );
 }

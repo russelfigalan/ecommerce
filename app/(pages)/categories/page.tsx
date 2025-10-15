@@ -1,7 +1,9 @@
+import { BreadCrumb } from "./_components/breadcrumbs";
+
 export default function Categories() {
   return (
     <>
-      <h1>Categories</h1>
+      <BreadCrumb />
     </>
   );
 }
