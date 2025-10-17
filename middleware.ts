@@ -15,8 +15,17 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isApiAuthRoute = Array.isArray(apiAuthPrefix)
+    ? apiAuthPrefix.some((prefix) => nextUrl.pathname.startsWith(prefix))
+    : nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.some((route) => {
+    if (route.endsWith("/*")) {
+      const baseRoute = route.replace("/*", "");
+      return nextUrl.pathname.startsWith(baseRoute);
+    }
+    return nextUrl.pathname === route;
+  });
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (isApiAuthRoute) {
@@ -31,12 +40,13 @@ export default auth((req) => {
   }
 
   if (!isPublicRoute && !isLoggedIn) {
-    return Response.redirect(new URL("/login", nextUrl));
+    return Response.redirect(new URL("/error", nextUrl));
   }
 
   return null;
 });
 
 export const config = {
+  // matcher: ["/((?!api|_next|.*\\..*).*)", "/api/auth/(.*)"],
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

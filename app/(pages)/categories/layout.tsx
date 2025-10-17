@@ -1,4 +1,5 @@
 import { CategoryList } from "./_components/category-list";
+import { BreadCrumb } from "./_components/breadcrumbs";
 
 export default function CategoriesLayout({
   children,
@@ -8,6 +9,7 @@ export default function CategoriesLayout({
   return (
     <>
       <CategoryList />
+      <BreadCrumb />
       {children}
     </>
   );

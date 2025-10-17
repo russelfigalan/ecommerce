@@ -1,17 +1,16 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
 
 export function BreadCrumb() {
   const pathname = usePathname();
@@ -48,9 +47,7 @@ export function BreadCrumb() {
                   ) : (
                     <BreadcrumbLink key={index} asChild>
                       <Link key={index} href={href}>
-                        <BreadcrumbEllipsis>
-                          {data.replaceAll("-", " ")}
-                        </BreadcrumbEllipsis>
+                        {data.replaceAll("-", " ")}
                       </Link>
                     </BreadcrumbLink>
                   )}

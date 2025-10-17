@@ -71,7 +71,7 @@ export const LoginForm = () => {
             setShowTwoFactor(true);
           }
         })
-        .catch(() => setError(""));
+        .catch((err) => setError(err));
     });
   };
 

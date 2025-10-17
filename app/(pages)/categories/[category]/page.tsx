@@ -1,5 +1,3 @@
-import { BreadCrumb } from "../_components/breadcrumbs";
-
 interface Props {
   params: Promise<{
     category: string;
@@ -11,7 +9,6 @@ const CategorySection = async ({ params }: Props) => {
 
   return (
     <>
-      <BreadCrumb />
       <h1 className="capitalize">Category: {decodeURIComponent(category)}</h1>
     </>
   );

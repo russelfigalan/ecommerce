@@ -1,4 +1,4 @@
-import { BreadCrumb } from "../../_components/breadcrumbs";
+// import { BreadCrumb } from "../../_components/breadcrumbs";
 
 interface Props {
   params: Promise<{
@@ -12,7 +12,7 @@ const SubCategorySection = async ({ params }: Props) => {
 
   return (
     <>
-      <BreadCrumb />
+      {/* <BreadCrumb /> */}
       <h1 className="capitalize">
         Category: {decodeURIComponent(category.replaceAll("-", " "))}
         {" / "}

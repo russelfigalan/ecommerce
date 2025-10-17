@@ -9,6 +9,7 @@ import {
   NavigationMenuContent,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
+import React from "react";
 
 const categories = [
   {
@@ -123,7 +124,7 @@ export const CategoryList = () => {
                     const name = data.name;
                     const slug = data.slug;
                     return (
-                      <>
+                      <React.Fragment key={name}>
                         <li key={name}>
                           <NavigationMenuLink asChild>
                             <Link
@@ -134,7 +135,7 @@ export const CategoryList = () => {
                             </Link>
                           </NavigationMenuLink>
                         </li>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </ul>
@@ -158,7 +159,7 @@ export const CategoryList = () => {
                     const name = data.name;
                     const slug = data.slug;
                     return (
-                      <>
+                      <React.Fragment key={name}>
                         <li key={name}>
                           <NavigationMenuLink asChild>
                             <Link
@@ -169,7 +170,7 @@ export const CategoryList = () => {
                             </Link>
                           </NavigationMenuLink>
                         </li>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </ul>
@@ -193,7 +194,7 @@ export const CategoryList = () => {
                     const name = data.name;
                     const slug = data.slug;
                     return (
-                      <>
+                      <React.Fragment key={name}>
                         <li key={name}>
                           <NavigationMenuLink asChild>
                             <Link
@@ -204,7 +205,7 @@ export const CategoryList = () => {
                             </Link>
                           </NavigationMenuLink>
                         </li>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </ul>
@@ -228,7 +229,7 @@ export const CategoryList = () => {
                     const name = data.name;
                     const slug = data.slug;
                     return (
-                      <>
+                      <React.Fragment key={name}>
                         <li key={name}>
                           <NavigationMenuLink asChild>
                             <Link
@@ -239,7 +240,7 @@ export const CategoryList = () => {
                             </Link>
                           </NavigationMenuLink>
                         </li>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </ul>
