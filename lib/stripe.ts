@@ -14,7 +14,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export const getProducts = async () => {
   const response = await stripe.products.list({
     expand: ["data.default_price"],
-    limit: 10,
+    limit: 100,
   });
   return response.data;
 };

@@ -38,16 +38,17 @@ export function BreadCrumb() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           {breadcrumbspath.map((data, index) => {
-            const href = `/${data}`;
+            const href = `/${breadcrumbspath[0]}/${decodeURIComponent(data)}`;
+
             return (
               <React.Fragment key={index}>
                 <BreadcrumbItem key={index} className="capitalize">
                   {index === breadcrumbspath.length - 1 ? (
-                    <BreadcrumbPage>{data.replaceAll("-", " ")}</BreadcrumbPage>
+                    <BreadcrumbPage>{decodeURIComponent(data)}</BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink key={index} asChild>
                       <Link key={index} href={href}>
-                        {data.replaceAll("-", " ")}
+                        {decodeURIComponent(data)}
                       </Link>
                     </BreadcrumbLink>
                   )}

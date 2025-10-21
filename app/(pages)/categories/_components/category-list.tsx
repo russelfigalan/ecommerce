@@ -42,7 +42,7 @@ const categories = [
       },
       {
         name: "Computers and Gadgets",
-        slug: "computers-gadgets",
+        slug: "computers and gadgets",
       },
       {
         name: "Home Appliance",
@@ -55,7 +55,7 @@ const categories = [
     data: [
       {
         name: "Living Room",
-        slug: "living-room",
+        slug: "living room",
       },
       {
         name: "Bedroom",
@@ -63,11 +63,11 @@ const categories = [
       },
       {
         name: "Home Office",
-        slug: "home-office",
+        slug: "home office",
       },
       {
         name: "Dining Room",
-        slug: "dining-room",
+        slug: "dining room",
       },
       {
         name: "Outdoor",
@@ -80,19 +80,19 @@ const categories = [
     data: [
       {
         name: "Cookware and Bakeware",
-        slug: "cooking-baking",
+        slug: "cookware and bakeware",
       },
       {
-        name: "Kitchen Tool and Gadgets",
-        slug: "kitchen-tools",
+        name: "Kitchen Tools and Gadgets",
+        slug: "kitchen tools and gadgets",
       },
       {
         name: "Dining and Serving",
-        slug: "dining-serving",
+        slug: "dining and serving",
       },
       {
         name: "Cleaning and Maintenance",
-        slug: "cleaning-maintenance",
+        slug: "cleaning and maintenance",
       },
     ],
   },
