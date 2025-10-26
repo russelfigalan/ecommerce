@@ -1,11 +1,16 @@
-export default function DashboardLayout({
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
   return (
     <>
-      <main>{children}</main>
+      <SessionProvider session={session}>{children}</SessionProvider>
     </>
   );
 }

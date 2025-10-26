@@ -1,18 +1,18 @@
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
+// import { SessionProvider } from "next-auth/react";
+// import { auth } from "@/auth";
 
-export default async function ProtectedPagesLayout({
+export default function ProtectedPagesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+  // const session = await auth();
 
   return (
     <>
-      <SessionProvider session={session}>
-        <main>{children}</main>
-      </SessionProvider>
+      {/* <SessionProvider session={session}> */}
+      <main>{children}</main>
+      {/* </SessionProvider> */}
     </>
   );
 }

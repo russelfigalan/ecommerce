@@ -40,13 +40,13 @@ export default auth((req) => {
   }
 
   if (!isPublicRoute && !isLoggedIn) {
-    return Response.redirect(new URL("/error", nextUrl));
+    return Response.redirect(new URL("/", nextUrl));
   }
 
   return null;
 });
 
 export const config = {
-  // matcher: ["/((?!api|_next|.*\\..*).*)", "/api/auth/(.*)"],
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!api|_next|.*\\..*).*)", "/api/auth/(.*)"],
+  // matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
