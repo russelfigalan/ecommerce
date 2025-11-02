@@ -23,6 +23,20 @@ declare module "next-auth" {
        */
     } & DefaultSession["user"];
   }
+
+  interface User {
+    id: string;
+    name: string | null;
+    email: string | null;
+    role: UserRole;
+  }
+}
+
+declare module "next-auth" {
+  interface JWT {
+    id?: string;
+    role?: UserRole;
+  }
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -72,17 +86,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token.role && session.user) {
         session.user.role = token.role as UserRole;
       }
+      console.log("🪪 Session callback:", session);
 
       return session;
     },
     async jwt({ token }) {
-      if (!token.sub) return token;
+      if (!token) return token;
 
-      const existingUser = await getUserById(token.sub);
+      const existingUser = await getUserById(token.sub as string);
 
       if (!existingUser) return token;
 
       token.role = existingUser.role;
+      // if (user) {
+      //   const dbUser = await getUserById(user.id!);
+      //   token.id = dbUser?.id;
+      //   token.role = dbUser?.role ?? "USER";
+      // }
+
+      // if (token.sub && !token.role) {
+      //   const dbUser = await getUserById(token.sub);
+      //   token.role = dbUser?.role ?? "USER";
+      // }
+
+      // if (!token.sub) return token;
+
+      // const existingUser = await getUserById(token.sub);
+
+      // if (!existingUser) return token;
+
+      // token.role = existingUser.role;
+      console.log("JWT token:", token);
 
       return token;
     },

@@ -95,10 +95,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   try {
+    const redirectTo =
+      existingUser.role === "ADMIN" ? "/dashboard/admin" : "/dashboard/user";
+
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo,
     });
   } catch (error) {
     if (error instanceof AuthError) {
