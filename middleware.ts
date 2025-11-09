@@ -11,7 +11,7 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const role = req.auth?.user?.role; // Role from session (e.g., "USER" or "ADMIN")
 
-  console.log("Middleware auth:", req.auth);
+  // console.log("Middleware auth:", req.auth);
 
   // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isApiAuthRoute = Array.isArray(apiAuthPrefix)

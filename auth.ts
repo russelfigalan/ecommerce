@@ -86,7 +86,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token.role && session.user) {
         session.user.role = token.role as UserRole;
       }
-      console.log("🪪 Session callback:", session);
+      // console.log("🪪 Session callback:", session);
 
       return session;
     },
@@ -116,7 +116,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // if (!existingUser) return token;
 
       // token.role = existingUser.role;
-      console.log("JWT token:", token);
+      // console.log("JWT token:", token);
 
       return token;
     },

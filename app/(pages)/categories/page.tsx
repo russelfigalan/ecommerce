@@ -11,6 +11,7 @@ interface Props {
 export default async function Categories({ params }: Props) {
   const products = await getProducts();
   const { category, subcategory } = await params;
+  console.log(products);
 
   return (
     <>

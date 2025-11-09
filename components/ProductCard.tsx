@@ -11,7 +11,8 @@ import {
   CardAction,
   CardFooter,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
+import AddToCartButton from "@/components/AddToCartButton";
 import Image from "next/image";
 
 interface DefaultPrice {
@@ -61,6 +62,7 @@ export const ProductCard = ({
       <div className="p-6">
         <div className="grid grid-cols-[repeat(auto-fit,250px)] place-items-start place-content-center gap-x-5 space-y-8">
           {productData(category, subcategory).map((data, index) => {
+            const price = data.default_price as DefaultPrice;
             return (
               <Card
                 key={data.name}
@@ -88,7 +90,7 @@ export const ProductCard = ({
                   {(data.default_price as DefaultPrice).currency.toUpperCase()}
                 </CardContent>
                 <CardFooter className="px-0 self-center">
-                  <Button>Add to Cart</Button>
+                  <AddToCartButton stripeId={price.id} />
                 </CardFooter>
               </Card>
             );

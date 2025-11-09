@@ -1,10 +1,20 @@
 import Header from "@/components/Header";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
-export default function Home({ children }: { children: React.ReactNode }) {
+export default async function Home({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
+
   return (
     <>
-      <Header />
-      <main>{children}</main>
+      <SessionProvider session={session}>
+        <Header />
+        <main>{children}</main>
+      </SessionProvider>
     </>
   );
 }

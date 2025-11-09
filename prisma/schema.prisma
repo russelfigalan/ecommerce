@@ -29,6 +29,7 @@ model User {
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  cartItems     CartItem[]
 }
 model Account {
   id                 String  @id @default(cuid())
@@ -84,4 +85,14 @@ model TwoFactorConfirmation {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model CartItem {
+  id String @id @default(cuid())
+  userId String
+  stripeId String
+  quantity Int @default(1)
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, stripeId])
 }

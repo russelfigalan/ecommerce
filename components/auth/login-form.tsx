@@ -39,10 +39,16 @@ export const LoginForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { update } = useSession();
+  const rawError = searchParams.get("error");
   const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
+    rawError === "OAuthAccountNotLinked"
       ? "Email already registered. Please login with your email and password."
-      : searchParams.get("error") || "";
+      : rawError &&
+          !["Callback", "OAuthCallback", "OAuthCallbackError"].includes(
+            rawError
+          )
+        ? rawError
+        : "";
 
   const form = useForm<z.infer<typeof LoginSchema> & { code?: string }>({
     resolver: zodResolver(LoginSchema),
@@ -75,12 +81,21 @@ export const LoginForm = () => {
 
           if (data?.success) {
             // ✅ Refresh session safely
+            setError("");
             await update();
             router.push("/dashboard");
           }
         } catch (err) {
+          if (err instanceof Error) {
+            if (
+              err.message.includes("NEXT_REDIRECT") ||
+              err.message.includes("NEXT_AUTH_REDIRECT")
+            ) {
+              return; // ✅ successful login redirect — do nothing
+            }
+          }
           console.error(err);
-          setError("Something went wrong. Please try again.");
+          setError("An unexpected error occurred. Please try again.");
         }
       })();
       // login(values)
@@ -184,7 +199,7 @@ export const LoginForm = () => {
                   />
                 </>
               )}
-              <FormError message={error || urlError} />
+              {(error || urlError) && <FormError message={error || urlError} />}
               <FormSuccess message={success} />
               <Button disabled={isPending} type="submit" className="w-full">
                 {showTwoFactor ? "Confirm" : "Login"}

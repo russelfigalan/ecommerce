@@ -12,10 +12,14 @@ import {
 import { MouseEventHandler, useState } from "react";
 import SideBar from "@/components/SideBar";
 import UserDropdown from "./UserDropdown";
+import UserDropdownOnline from "./UserDropdown-online";
+import AdminDropdown from "./AdminDropdown";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export default function Header() {
   const [isShown, setIsShown] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const user = useCurrentUser();
 
   const toggleSideBar: MouseEventHandler<HTMLButtonElement> = () => {
     setIsShown(!isShown);
@@ -73,14 +77,22 @@ export default function Header() {
               className="flex items-center-safe gap-1 p-2 text-icons-color lg:border-3 border-gray-200 rounded-full cursor-pointer"
             >
               <CircleUserRound className="w-[32px] h-auto lg:w-[24px]" />
-              <p className="hidden lg:block text-icons-color">Log in</p>
+              <p className="hidden lg:block text-icons-color">
+                {user ? "Profile" : "Log in"}
+              </p>
               <ChevronDown
                 size={20}
                 strokeWidth={3}
                 className="hidden lg:block place-self-end-safe"
               />
             </div>
-            <UserDropdown isOpen={isOpen} />
+            {user?.role === "USER" ? (
+              <UserDropdownOnline isOpen={isOpen} />
+            ) : user?.role === "ADMIN" ? (
+              <AdminDropdown isOpen={isOpen} />
+            ) : (
+              <UserDropdown isOpen={isOpen} />
+            )}
           </div>
           <div className="relative p-[10px] bg-gray-200 rounded-full">
             <ShoppingCart color="#383838" />
