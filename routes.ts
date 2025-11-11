@@ -4,6 +4,7 @@
  */
 export const publicRoutes = [
   "/",
+  "/cart",
   "/new-verification",
   "/products/*",
   "/about",

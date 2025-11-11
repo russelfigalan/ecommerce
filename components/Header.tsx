@@ -94,12 +94,14 @@ export default function Header() {
               <UserDropdown isOpen={isOpen} />
             )}
           </div>
-          <div className="relative p-[10px] bg-gray-200 rounded-full">
-            <ShoppingCart color="#383838" />
-            <span className="absolute px-2 right-[-10px] top-[-9px] bg-[#960000] text-white rounded-full">
-              0
-            </span>
-          </div>
+          <Link href="/cart">
+            <div className="relative p-[10px] bg-gray-200 rounded-full">
+              <ShoppingCart color="#383838" />
+              <span className="absolute px-2 right-[-10px] top-[-9px] bg-[#960000] text-white rounded-full">
+                0
+              </span>
+            </div>
+          </Link>
         </div>
         <nav className="flex justify-center-safe items-center-safe gap-5 h-[2.5rem] text-white bg-[#005e5e] font-medium">
           <button
