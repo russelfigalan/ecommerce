@@ -19,6 +19,7 @@ export default function AddToCartButton({ stripeId }: { stripeId: string }) {
         throw new Error("Failed to add to cart");
       }
 
+      window.dispatchEvent(new Event("cartUpdated"));
       console.log("Added to cart!");
     } catch (err) {
       console.error(err);

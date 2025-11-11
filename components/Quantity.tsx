@@ -35,6 +35,7 @@ export function Quantity({ product, onChange, onDelete }: QuantityProps) {
         quantity: newQuantity,
       }),
     });
+    window.dispatchEvent(new Event("cartUpdated"));
   };
 
   const deleteFromCart = async () => {
@@ -45,6 +46,8 @@ export function Quantity({ product, onChange, onDelete }: QuantityProps) {
       body: JSON.stringify({ id: product.cartItemId }),
     });
     onDelete?.(product.cartItemId);
+
+    window.dispatchEvent(new Event("cartUpdated"));
   };
 
   return (

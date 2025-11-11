@@ -9,7 +9,7 @@ import {
   Search,
   Menu,
 } from "lucide-react";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useState, useEffect } from "react";
 import SideBar from "@/components/SideBar";
 import UserDropdown from "./UserDropdown";
 import UserDropdownOnline from "./UserDropdown-online";
@@ -19,6 +19,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 export default function Header() {
   const [isShown, setIsShown] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(0);
   const user = useCurrentUser();
 
   const toggleSideBar: MouseEventHandler<HTMLButtonElement> = () => {
@@ -28,6 +29,34 @@ export default function Header() {
   const toggleUserDropdown: MouseEventHandler<HTMLDivElement> = () => {
     setIsOpen(!isOpen);
   };
+
+  const fetchCartQuantity = async () => {
+    try {
+      const res = await fetch("/api/cart/get");
+      if (!res.ok) throw new Error("Failed to fetch cart data");
+
+      const data = await res.json();
+
+      const totalQuantity = data.reduce(
+        (sum: number, item: { quantity: number }) => sum + item.quantity,
+        0
+      );
+      setQuantity(totalQuantity);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartQuantity();
+
+    const handleCartUpdate = () => fetchCartQuantity();
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, []);
 
   return (
     <>
@@ -98,7 +127,7 @@ export default function Header() {
             <div className="relative p-[10px] bg-gray-200 rounded-full">
               <ShoppingCart color="#383838" />
               <span className="absolute px-2 right-[-10px] top-[-9px] bg-[#960000] text-white rounded-full">
-                0
+                {quantity}
               </span>
             </div>
           </Link>

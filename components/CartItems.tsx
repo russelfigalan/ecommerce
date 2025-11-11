@@ -21,7 +21,6 @@ export function CartItems({
 }: {
   initialProducts: Products[];
 }) {
-  console.log(initialProducts);
   const [products, setProducts] = useState<Products[]>(initialProducts);
 
   const handleQuantityChange = (cartItemId: string, newQuantity: number) => {
