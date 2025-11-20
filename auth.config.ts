@@ -40,5 +40,4 @@ export default {
       clientSecret: process.env.Facebook_CLIENT_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
 } satisfies NextAuthConfig;

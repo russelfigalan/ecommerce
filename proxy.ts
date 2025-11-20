@@ -1,16 +1,29 @@
 // import NextAuth from "next-auth";
 import { auth } from "@/auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { Session } from "next-auth";
 // import authConfig from "@/auth.config";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
 
 // const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
-  const role = req.auth?.user?.role; // Role from session (e.g., "USER" or "ADMIN")
+// export default auth((req) => {
 
+// });
+
+export const proxy = auth(async function proxy(req: NextRequest, eventOrSession: any) {
+  // Normalize the second argument: it might be a Session or a NextFetchEvent/AppRoute context depending on the overload.
+  // If it's not a Session, try to read the token/session from req.nextauth (added by next-auth/middleware) as a fallback.
+  const session: Session | null =
+    eventOrSession && typeof eventOrSession === "object" && "user" in eventOrSession
+      ? (eventOrSession as Session)
+      : ((req as any).nextauth?.token ?? null);
+
+  const { nextUrl } = req;
+  const isLoggedIn = !!session;
+  const role = session?.user?.role; // Role from session (e.g., "USER" or "ADMIN")
+  
+  
   // console.log("Middleware auth:", req.auth);
 
   // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -38,16 +51,6 @@ export default auth((req) => {
       )
     );
 
-    // // If logged in and trying to access login/register, redirect by role
-    // if (role === "ADMIN") {
-    //   return Response.redirect(new URL("/dashboard/admin", req.url));
-    // } else {
-    //   return Response.redirect(new URL("/dashboard/user", req.url));
-    // }
-    // // if (isLoggedIn) {
-    // //   return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-    // // }
-    // // return null;
   }
 
   if (!isPublicRoute && !isLoggedIn) {
@@ -67,7 +70,8 @@ export default auth((req) => {
     }
   }
   return NextResponse.next();
-});
+})
+
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)", "/api/auth/(.*)"],

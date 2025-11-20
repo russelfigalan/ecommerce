@@ -98,23 +98,6 @@ export const LoginForm = () => {
           setError("An unexpected error occurred. Please try again.");
         }
       })();
-      // login(values)
-      //   .then((data) => {
-      //     if (data?.error) {
-      //       form.reset();
-      //       setError(data.error);
-      //     }
-
-      //     if (data?.success) {
-      //       form.reset();
-      //       setSuccess(data.success);
-      //     }
-
-      //     if (data?.twoFactor) {
-      //       setShowTwoFactor(true);
-      //     }
-      //   })
-      //   .catch((err) => setError(err));
     });
   };
 

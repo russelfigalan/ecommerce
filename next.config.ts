@@ -12,12 +12,15 @@ module.exports = {
         remotePatterns: [
         {
             protocol: 'https',
-            hostname: '**',
+            hostname: 'files.stripe.com',
         },
-        {
-            protocol: 'http',
-            hostname: '**',
-        },
+        // {
+        //     protocol: 'http',
+        //     hostname: '**',
+        // },
         ],
     },
+    // experimental: {
+    //     proxy: true,
+    // },
 }

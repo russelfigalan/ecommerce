@@ -39,7 +39,10 @@ declare module "next-auth" {
   }
 }
 
+console.log(prisma)
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
     error: "/error",
@@ -98,30 +101,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!existingUser) return token;
 
       token.role = existingUser.role;
-      // if (user) {
-      //   const dbUser = await getUserById(user.id!);
-      //   token.id = dbUser?.id;
-      //   token.role = dbUser?.role ?? "USER";
-      // }
-
-      // if (token.sub && !token.role) {
-      //   const dbUser = await getUserById(token.sub);
-      //   token.role = dbUser?.role ?? "USER";
-      // }
-
-      // if (!token.sub) return token;
-
-      // const existingUser = await getUserById(token.sub);
-
-      // if (!existingUser) return token;
-
-      // token.role = existingUser.role;
-      // console.log("JWT token:", token);
 
       return token;
     },
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as any,
   session: { strategy: "jwt" },
   ...authConfig,
 });

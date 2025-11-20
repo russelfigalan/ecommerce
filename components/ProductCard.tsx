@@ -62,6 +62,7 @@ export const ProductCard = ({
       <div className="p-6">
         <div className="grid grid-cols-[repeat(auto-fit,250px)] place-items-start place-content-center gap-x-5 space-y-8">
           {productData(category, subcategory).map((data, index) => {
+            console.log(data)
             const price = data.default_price as DefaultPrice;
             return (
               <Card
@@ -75,6 +76,7 @@ export const ProductCard = ({
                   height={1000}
                   className="w-[200px] h-full object-cover place-self-center"
                   priority={index === 0}
+                  unoptimized
                 />
                 <CardHeader className="w-full justify-start px-0">
                   <CardTitle className="line-clamp-2">{data.name}</CardTitle>
@@ -86,8 +88,9 @@ export const ProductCard = ({
                   {/* <CardDescription className="line-clamp-3 self-start">
                     {data.description}
                   </CardDescription> */}
-                  {(data.default_price as DefaultPrice).unit_amount / 100}{" "}
-                  {(data.default_price as DefaultPrice).currency.toUpperCase()}
+                  $
+                  {((data.default_price as DefaultPrice).unit_amount / 100).toFixed(2)}{" "}
+                  {/* {(data.default_price as DefaultPrice).currency.toUpperCase()} */}
                 </CardContent>
                 <CardFooter className="px-0 self-center">
                   <AddToCartButton stripeId={price.id} />
