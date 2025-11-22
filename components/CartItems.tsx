@@ -60,7 +60,7 @@ export function CartItems({
                   alt={product.name}
                   width={80}
                   height={80}
-                  className="w-20 h-full object-cover"
+                  className="w-20 h-auto object-cover"
                   priority
                   unoptimized
                 />

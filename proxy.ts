@@ -15,17 +15,13 @@ export const proxy = auth(async function proxy(
   req: NextRequest,
   eventOrSession: any
 ) {
-  // const session: Session | null =
-  //   eventOrSession &&
-  //   typeof eventOrSession === "object" &&
-  //   "user" in eventOrSession
-  //     ? (eventOrSession as Session)
-  //     : ((req as any).nextauth?.token ?? null);
-
   const session = await auth();
   const { nextUrl } = req;
   const isLoggedIn = !!session;
-  const role = session?.user?.role; // Role from session (e.g., "USER" or "ADMIN")
+  const role = session?.user?.role;
+  const isSuccessorCancel =
+    req.nextUrl.pathname.startsWith("/success") ||
+    req.nextUrl.pathname.startsWith("/cancel");
 
   // console.log("Middleware auth:", req.auth);
 
@@ -53,6 +49,10 @@ export const proxy = auth(async function proxy(
         req.url
       )
     );
+  }
+
+  if (isSuccessorCancel && !session?.user) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   if (!isPublicRoute && !isLoggedIn) {

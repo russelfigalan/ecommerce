@@ -3,6 +3,7 @@ import prisma from "@/lib/db/prisma";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import { CartItems } from "@/components/CartItems";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export default async function CartPage() {
   const session = await auth();
@@ -52,6 +53,9 @@ export default async function CartPage() {
       {/* {stripeProducts.length === 0 && <p>Your cart is empty.</p>} */}
       <div>
         <CartItems initialProducts={stripeProducts} />
+      </div>
+      <div>
+        <CheckoutButton cartItems={stripeProducts} />
       </div>
       ;
     </>
