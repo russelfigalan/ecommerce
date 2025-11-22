@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db/prisma";
+import prisma from "@/lib/db/prisma";
 import { stripe } from "@/lib/stripe";
 import Stripe from "stripe";
 import { CartItems } from "@/components/CartItems";

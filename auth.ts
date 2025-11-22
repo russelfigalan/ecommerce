@@ -1,8 +1,8 @@
 import NextAuth, { type DefaultSession } from "next-auth";
 import authConfig from "@/auth.config";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/app/generated/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/lib/db/prisma";
+import prisma from "@/lib/db/prisma";
 import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
@@ -39,7 +39,7 @@ declare module "next-auth" {
   }
 }
 
-console.log(prisma)
+console.log(prisma);
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,

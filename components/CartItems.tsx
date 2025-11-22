@@ -60,8 +60,9 @@ export function CartItems({
                   alt={product.name}
                   width={80}
                   height={80}
+                  className="w-20 h-full object-cover"
                   priority
-                  className="w-auto h-auto"
+                  unoptimized
                 />
                 <div className="flex flex-col justify-center">
                   <h2>{product.name}</h2>

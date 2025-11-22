@@ -11,19 +11,22 @@ import { apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
 
 // });
 
-export const proxy = auth(async function proxy(req: NextRequest, eventOrSession: any) {
-  // Normalize the second argument: it might be a Session or a NextFetchEvent/AppRoute context depending on the overload.
-  // If it's not a Session, try to read the token/session from req.nextauth (added by next-auth/middleware) as a fallback.
-  const session: Session | null =
-    eventOrSession && typeof eventOrSession === "object" && "user" in eventOrSession
-      ? (eventOrSession as Session)
-      : ((req as any).nextauth?.token ?? null);
+export const proxy = auth(async function proxy(
+  req: NextRequest,
+  eventOrSession: any
+) {
+  // const session: Session | null =
+  //   eventOrSession &&
+  //   typeof eventOrSession === "object" &&
+  //   "user" in eventOrSession
+  //     ? (eventOrSession as Session)
+  //     : ((req as any).nextauth?.token ?? null);
 
+  const session = await auth();
   const { nextUrl } = req;
   const isLoggedIn = !!session;
   const role = session?.user?.role; // Role from session (e.g., "USER" or "ADMIN")
-  
-  
+
   // console.log("Middleware auth:", req.auth);
 
   // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -50,7 +53,6 @@ export const proxy = auth(async function proxy(req: NextRequest, eventOrSession:
         req.url
       )
     );
-
   }
 
   if (!isPublicRoute && !isLoggedIn) {
@@ -70,8 +72,7 @@ export const proxy = auth(async function proxy(req: NextRequest, eventOrSession:
     }
   }
   return NextResponse.next();
-})
-
+});
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)", "/api/auth/(.*)"],
