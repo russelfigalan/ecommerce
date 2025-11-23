@@ -58,9 +58,10 @@ export function CartItems({
                 <Image
                   src={product.image}
                   alt={product.name}
-                  width={80}
-                  height={80}
-                  className="w-20 h-auto object-cover"
+                  width={500}
+                  height={500}
+                  style={{ width: "80px", height: "80px" }}
+                  className="object-contain"
                   priority
                   unoptimized
                 />

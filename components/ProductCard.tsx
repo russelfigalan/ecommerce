@@ -62,7 +62,7 @@ export const ProductCard = ({
       <div className="p-6">
         <div className="grid grid-cols-[repeat(auto-fit,250px)] place-items-start place-content-center gap-x-5 space-y-8">
           {productData(category, subcategory).map((data, index) => {
-            console.log(data)
+            console.log(data);
             const price = data.default_price as DefaultPrice;
             return (
               <Card
@@ -74,12 +74,13 @@ export const ProductCard = ({
                   alt={data.name}
                   width={1000}
                   height={1000}
-                  className="w-[200px] h-full object-cover place-self-center"
+                  style={{ width: "200px", height: "200px" }}
+                  className="object-contain place-self-center"
                   priority={index === 0}
                   unoptimized
                 />
                 <CardHeader className="w-full justify-start px-0">
-                  <CardTitle className="line-clamp-2">{data.name}</CardTitle>
+                  <CardTitle className="line-clamp-1">{data.name}</CardTitle>
                   <CardDescription className="line-clamp-3">
                     {data.description}
                   </CardDescription>
@@ -89,7 +90,9 @@ export const ProductCard = ({
                     {data.description}
                   </CardDescription> */}
                   $
-                  {((data.default_price as DefaultPrice).unit_amount / 100).toFixed(2)}{" "}
+                  {(
+                    (data.default_price as DefaultPrice).unit_amount / 100
+                  ).toFixed(2)}{" "}
                   {/* {(data.default_price as DefaultPrice).currency.toUpperCase()} */}
                 </CardContent>
                 <CardFooter className="px-0 self-center">

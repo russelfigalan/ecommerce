@@ -10,6 +10,7 @@ import {
   Menu,
 } from "lucide-react";
 import { MouseEventHandler, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import SideBar from "@/components/SideBar";
 import UserDropdown from "./UserDropdown";
 import UserDropdownOnline from "./UserDropdown-online";
@@ -20,7 +21,15 @@ export default function Header() {
   const [isShown, setIsShown] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const user = useCurrentUser();
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) return;
+    router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
+  };
 
   const toggleSideBar: MouseEventHandler<HTMLButtonElement> = () => {
     setIsShown(!isShown);
@@ -81,6 +90,7 @@ export default function Header() {
             <p>Philippines</p>
           </div>
           <form
+            onSubmit={handleSearch}
             action=""
             className="relative hidden md:w-[50%] md:h-[30px] md:flex outline-3 outline-gray-500 rounded-full"
           >
@@ -91,6 +101,8 @@ export default function Header() {
             <input
               type="text"
               placeholder="Search Product"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="font-normal bg-[#fff6f5] px-[0.5rem] w-full focus:outline-none rounded-se-[inherit] rounded-ee-[inherit]"
             />
             <button className="absolute right-0 h-full px-3 bg-[#960000] rounded-se-[inherit] rounded-ee-[inherit]">
