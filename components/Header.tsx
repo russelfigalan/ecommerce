@@ -16,6 +16,8 @@ import UserDropdown from "./UserDropdown";
 import UserDropdownOnline from "./UserDropdown-online";
 import AdminDropdown from "./AdminDropdown";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import LanguageDropdown from "@/components/LanguageDropdown";
+import Trans from "@/components/Trans";
 
 export default function Header() {
   const [isShown, setIsShown] = useState<boolean>(false);
@@ -110,7 +112,7 @@ export default function Header() {
             </button>
           </form>
           <div className="hidden lg:block">
-            <p>Language</p>
+            <LanguageDropdown />
           </div>
           <div className="relative">
             <div
@@ -156,7 +158,7 @@ export default function Header() {
             href="/products"
             className="h-full px-2 place-content-center-safe hover:bg-[#04ffff2a]"
           >
-            Products
+            <Trans>Products</Trans>
           </Link>
           <Link
             href="/categories"

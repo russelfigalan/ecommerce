@@ -34,6 +34,10 @@ declare global {
     currency: string;
     quantity: number;
   }
+
+  var __libreTranslateCache:
+    | Map<string, { value: string; ts: number }>
+    | undefined;
 }
 
 export {};
