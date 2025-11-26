@@ -18,6 +18,7 @@ import AdminDropdown from "./AdminDropdown";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import LanguageDropdown from "@/components/LanguageDropdown";
 import Trans from "@/components/Trans";
+import { useCountry } from "@/context/CountryContext";
 
 export default function Header() {
   const [isShown, setIsShown] = useState<boolean>(false);
@@ -26,6 +27,7 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const user = useCurrentUser();
   const router = useRouter();
+  const { country } = useCountry();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +91,7 @@ export default function Header() {
           </Link>
           <div className="hidden lg:flex flex-col justify-center-safe text-center">
             <p className="font-medium">Deliver to</p>
-            <p>Philippines</p>
+            <p>{country}</p>
           </div>
           <form
             onSubmit={handleSearch}
