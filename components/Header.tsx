@@ -19,6 +19,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import LanguageDropdown from "@/components/LanguageDropdown";
 import Trans from "@/components/Trans";
 import { useCountry } from "@/context/CountryContext";
+import CountrySelector from "@/components/CountrySelector";
 
 export default function Header() {
   const [isShown, setIsShown] = useState<boolean>(false);
@@ -91,7 +92,8 @@ export default function Header() {
           </Link>
           <div className="hidden lg:flex flex-col justify-center-safe text-center">
             <p className="font-medium">Deliver to</p>
-            <p>{country}</p>
+            {/* <p>{country}</p> */}
+            <CountrySelector />
           </div>
           <form
             onSubmit={handleSearch}

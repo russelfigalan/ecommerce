@@ -3,12 +3,12 @@
 import { useCountry } from "@/context/CountryContext";
 
 const countries = [
-  "Philippines",
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Australia",
-  "Singapore",
+  { name: "Philippines", code: "PH" },
+  { name: "United States", code: "US" },
+  { name: "United Kingdom", code: "GB" },
+  { name: "Canada", code: "CA" },
+  { name: "Australia", code: "AU" },
+  { name: "Singapore", code: "SG" },
 ];
 
 export default function CountrySelector() {
@@ -20,9 +20,9 @@ export default function CountrySelector() {
       onChange={(e) => setCountry(e.target.value)}
       className="border p-2 rounded"
     >
-      {countries.map((c) => (
-        <option key={c} value={c}>
-          {c}
+      {countries.map((n) => (
+        <option key={n.code} value={n.code}>
+          {n.name}
         </option>
       ))}
     </select>

@@ -15,20 +15,14 @@ import {
 import AddToCartButton from "@/components/AddToCartButton";
 import Image from "next/image";
 
+import { useCountry } from "@/context/CountryContext";
+import useConvertedPrice from "@/hooks/useConvertedPrice";
+
 interface DefaultPrice {
   id: string;
   unit_amount: number;
   currency: string;
 }
-
-// interface Product {
-//   id: string;
-//   name: string;
-//   description: string | null;
-//   image: string | null;
-//   price: number; // <– your interface requires price
-//   currency: string;
-// }
 
 interface ProductListProps {
   products: Stripe.Product[];
@@ -36,11 +30,21 @@ interface ProductListProps {
   subcategory?: string;
 }
 
+function ConvertedPrice({ amountUsdCents }: { amountUsdCents: number }) {
+  const { convertedAmountMajor, currency, loading, formatted } =
+    useConvertedPrice(amountUsdCents);
+
+  if (loading) return <span>Loading...</span>;
+
+  return <span>{formatted}</span>;
+}
+
 export const ProductCard = ({
   products,
   category,
   subcategory,
 }: ProductListProps) => {
+  const { country } = useCountry();
   // const params = useParams();
   // console.log(category);
   // console.log(products);
@@ -62,8 +66,13 @@ export const ProductCard = ({
       <div className="p-6">
         <div className="grid grid-cols-[repeat(auto-fit,250px)] place-items-start place-content-center gap-x-5 space-y-8">
           {productData(category, subcategory).map((data, index) => {
-            console.log(data);
+            // console.log(data);
             const price = data.default_price as DefaultPrice;
+            const usdValue = price.unit_amount / 100;
+
+            const { convertedAmountMajor, currency, loading, formatted } =
+              useConvertedPrice(usdValue);
+
             return (
               <Card
                 key={data.name}
@@ -86,14 +95,19 @@ export const ProductCard = ({
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="px-0">
-                  {/* <CardDescription className="line-clamp-3 self-start">
-                    {data.description}
-                  </CardDescription> */}
-                  $
-                  {(
-                    (data.default_price as DefaultPrice).unit_amount / 100
-                  ).toFixed(2)}{" "}
-                  {/* {(data.default_price as DefaultPrice).currency.toUpperCase()} */}
+                  {/* {!loading ? (
+                    <>
+                      {currency === "USD" ? "$" : ""}
+                      {convertedAmountMajor.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}{" "}
+                      {currency !== "USD" ? currency : ""}
+                    </>
+                  ) : (
+                    <span>{formatted}</span>
+                  )} */}
+                  <ConvertedPrice amountUsdCents={price.unit_amount} />
                 </CardContent>
                 <CardFooter className="px-0 self-center">
                   <AddToCartButton stripeId={price.id} />

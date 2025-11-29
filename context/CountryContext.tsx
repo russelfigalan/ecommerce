@@ -1,43 +1,56 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useLanguage } from "./LanguageContext";
 
-// Type definition
 interface CountryContextType {
   country: string;
   setCountry: (country: string) => void;
 }
 
-// Create the context
 const CountryContext = createContext<CountryContextType | null>(null);
 
-export function CountryProvider({ children }: { children: React.ReactNode }) {
-  const [country, setCountryState] = useState("Loading...");
+export function CountryProvider({
+  children,
+  initialCountry = "US",
+}: {
+  children: React.ReactNode;
+  initialCountry?: string;
+}) {
+  const [country, setCountryState] = useState(initialCountry);
+  const { setLanguage } = useLanguage();
 
   const setCountry = (value: string) => {
     setCountryState(value);
-    // Persist in localStorage
+
+    switch (value) {
+      case "PH":
+        setLanguage("ph");
+        break;
+      case "US":
+      case "GB":
+      case "CA":
+      case "AU":
+      case "SG":
+        setLanguage("en");
+        break;
+      default:
+        setLanguage("en");
+    }
+
+    // Save so user’s selection overrides auto-detection
     localStorage.setItem("userCountry", value);
-    // Optional: persist in cookie
-    document.cookie = `userCountry=${value}; path=/; max-age=${60 * 60 * 24 * 30}`; // 30 days
+
+    // Save cookie for server-side continuity
+    document.cookie = `country=${value}; path=/; max-age=${60 * 60 * 24 * 365}`;
   };
 
   useEffect(() => {
-    // 1️⃣ Check localStorage first
+    // On first render, check if user previously selected a country
     const stored = localStorage.getItem("userCountry");
     if (stored) {
-      setCountryState(stored);
-      return;
+      setCountry(stored);
     }
-
-    // 2️⃣ Otherwise, detect country client-side via ipapi.co
-    fetch("https://ipapi.co/json/")
-      .then((res) => res.json())
-      .then((data) => {
-        const detected = data.country_name || "Philippines"; // fallback
-        setCountry(detected);
-      })
-      .catch(() => setCountry("Philippines")); // fallback on error
   }, []);
 
   return (
@@ -47,9 +60,8 @@ export function CountryProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Custom hook for convenience
 export function useCountry() {
   const ctx = useContext(CountryContext);
-  if (!ctx) throw new Error("useCountry must be used inside CountryProvider");
+  if (!ctx) throw new Error("useCountry must be inside CountryProvider");
   return ctx;
 }
