@@ -83,7 +83,7 @@ export const LoginForm = () => {
             // ✅ Refresh session safely
             setError("");
             await update();
-            router.push("/dashboard");
+            // router.push("/user");
           }
         } catch (err) {
           if (err instanceof Error) {

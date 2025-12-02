@@ -7,17 +7,11 @@ import { logout } from "@/actions/logout";
 export default function Dashboard() {
   const user = useCurrentUser();
   // const session = useSession();
+  console.log(user);
 
   const onClick = () => {
     logout();
   };
 
-  return (
-    <>
-      {JSON.stringify(user?.role)}
-      <button onClick={onClick} type="submit">
-        Sign Out
-      </button>
-    </>
-  );
+  return <></>;
 }

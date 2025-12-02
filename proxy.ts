@@ -44,10 +44,7 @@ export const proxy = auth(async function proxy(
     if (!isLoggedIn) return NextResponse.next();
 
     return NextResponse.redirect(
-      new URL(
-        role === "ADMIN" ? "/dashboard/admin" : "/dashboard/user",
-        req.url
-      )
+      new URL(role === "ADMIN" ? "/admin" : "/user", req.url)
     );
   }
 
@@ -62,13 +59,13 @@ export const proxy = auth(async function proxy(
   // 4️⃣ Restrict access by role
   if (isLoggedIn) {
     // Prevent users from accessing admin dashboard
-    if (nextUrl.pathname.startsWith("/dashboard/admin") && role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/dashboard/user", req.url));
+    if (nextUrl.pathname.startsWith("/admin") && role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/user", req.url));
     }
 
     // Prevent admins from accessing user dashboard
-    if (nextUrl.pathname.startsWith("/dashboard/user") && role === "ADMIN") {
-      return NextResponse.redirect(new URL("/dashboard/admin", req.url));
+    if (nextUrl.pathname.startsWith("/user") && role === "ADMIN") {
+      return NextResponse.redirect(new URL("/admin", req.url));
     }
   }
   return NextResponse.next();

@@ -63,6 +63,9 @@ export default function UserDropdownOnline({ isOpen }: UserDropdownProps) {
       >
         <div className="min-w-[200px] p-[20px] flex flex-col gap-3">
           <button className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] whitespace-nowrap cursor-pointer">
+            <Link href="/user">Dashboard</Link>
+          </button>
+          <button className="px-[15px] py-[10px] place-items-center-safe rounded-full shadow-[0px_0px_1px_black] whitespace-nowrap cursor-pointer">
             <Link href="/cart">Cart</Link>
           </button>
           <button onClick={onClick} type="submit" className="cursor-pointer">

@@ -28,6 +28,7 @@ declare module "next-auth" {
     id: string;
     name: string | null;
     email: string | null;
+    image: string | null;
     role: UserRole;
   }
 }
@@ -57,6 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
+      console.log(user);
       if (account?.provider !== "credentials") return true;
 
       if (!user.id) return false;
