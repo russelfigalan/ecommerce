@@ -23,17 +23,41 @@ export const newVerification = async (token: string) => {
     return { error: "Email does not exist!" };
   }
 
-  await prisma.user.update({
-    where: { id: existingUser.id },
-    data: {
-      emailVerified: new Date(),
-      email: existingToken.email,
-    },
-  });
+  if (existingToken.type === "email") {
+    await prisma.user.update({
+      where: { id: existingUser.id },
+      data: {
+        emailVerified: new Date(),
+        email: existingToken.email,
+      },
+    });
 
-  await prisma.verificationToken.delete({
-    where: { id: existingToken.id },
-  });
+    await prisma.verificationToken.delete({
+      where: { id: existingToken.id },
+    });
+  
+    return { success: "Email verified!" };
+  }
 
-  return { success: "Email verified!" };
+  if (existingToken.type === "password") {
+    if (!existingToken.newPassword) {
+      return { error: "Invalid token data!" }
+    }
+
+    await prisma.user.update({
+      where: { id: existingUser.id },
+      data: {
+        password: existingToken.newPassword,
+      }
+    })
+
+    await prisma.verificationToken.delete({
+      where: { id: existingToken.id },
+    })
+
+    return { success: "Password updated successfully!" }
+  }
+
+  return { error: "Invalid verification type!" }
+
 };

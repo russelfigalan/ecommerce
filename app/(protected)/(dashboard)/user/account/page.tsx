@@ -1,7 +1,11 @@
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import ProfileImageUpload from "./profile-image-upload";
 import { currentUser } from "@/lib/current-user";
+import ProfileImageUpload from "../../_components/profile-image-upload";
+// import SettingsForm from "../../_components/settings-form";
+import { ChangeUsernameForm } from "../../_components/change-username-form";
+import { ChangeEmailForm } from "../../_components/change-email-form";
+import { ChangePasswordForm } from "../../_components/change-password-form";
 
 export default async function ProfilePage() {
   const user = await currentUser();
@@ -25,6 +29,15 @@ export default async function ProfilePage() {
       <div>
         <h2 className="text-xl font-semibold">Email: </h2>
         <p>{user?.email}</p>
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold">Username: </h2>
+        <p>{user?.username}</p>
+      </div>
+      <div>
+        <ChangeUsernameForm />
+        <ChangeEmailForm />
+        <ChangePasswordForm />
       </div>
     </div>
   );

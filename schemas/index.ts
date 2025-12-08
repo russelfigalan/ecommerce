@@ -34,3 +34,27 @@ export const NewPasswordSchema = z.object({
     message: "Password should have a minimum of 6 characters!",
   }),
 });
+
+export const PasswordSchema = z.object({
+  password: z.string().min(6, {
+    message: "Input current password"
+  }),
+  newPassword: z.string().min(6, {
+    message: "Input new password"
+  })
+})
+
+export const UsernameSchema = z.object({
+  username: z.string().min(1, {
+    message: "Please input a username"
+  })
+})
+
+export const SettingsSchema = z.object({
+  email: z.string().email().optional(),
+  username: z.string().min(3).max(20).optional(),
+  password: z.string().optional(), // current password
+  newPassword: z.string().min(6).optional(),
+
+  actionType: z.enum(["username", "email", "password"]).optional(),
+});

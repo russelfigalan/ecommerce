@@ -31,6 +31,7 @@ model User {
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
   cartItems             CartItem[]
+  username              String? @unique
 }
 
 model Account {
@@ -58,6 +59,11 @@ model VerificationToken {
   email   String
   token   String   @unique
   expires DateTime
+
+  type    String   @default("email")
+  newPassword String?
+
+  createdAt DateTime @default(now())
 
   @@unique([email, token])
 }

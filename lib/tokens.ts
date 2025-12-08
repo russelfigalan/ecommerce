@@ -4,6 +4,7 @@ import { getVerificationTokenByEmail } from "@/data/verification-token";
 import { v4 as uuidv4 } from "uuid";
 import { getResetPasswordTokenByEmail } from "@/data/reset-password-token";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import bcrypt from "bcryptjs";
 
 export const generateTwoFactorToken = async (email: string) => {
   const token = crypto.randomInt(100_000, 1_000_000).toString();
@@ -76,4 +77,30 @@ export const generateResetPasswordToken = async (email: string) => {
   });
 
   return passwordResetToken;
+};
+
+export const generatePasswordChangeVerificationToken = async (
+  email: string,
+  newPassword: string
+) => {
+  const token = uuidv4();
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const expires = new Date(Date.now() + 3600 * 1000); // 1 hour
+
+  // delete existing password-change tokens for the same user
+  await prisma.verificationToken.deleteMany({
+    where: { email, type: "password" },
+  });
+
+  const verificationToken = await prisma.verificationToken.create({
+    data: {
+      email,
+      token,
+      expires,
+      type: "password",
+      newPassword: hashedPassword,
+    },
+  });
+
+  return verificationToken;
 };
