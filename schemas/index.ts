@@ -46,7 +46,7 @@ export const PasswordSchema = z.object({
 
 export const UsernameSchema = z.object({
   username: z.string().min(1, {
-    message: "Please input a username"
+    message: "Set a username"
   })
 })
 

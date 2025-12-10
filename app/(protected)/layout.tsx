@@ -11,7 +11,7 @@ export default function ProtectedPagesLayout({
   return (
     <>
       {/* <SessionProvider session={session}> */}
-      <main>{children}</main>
+      <div>{children}</div>
       {/* </SessionProvider> */}
     </>
   );

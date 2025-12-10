@@ -46,7 +46,7 @@ export default async function SideBar({
         </form>
       </aside>
 
-      <div className="flex-1 p-6">{children}</div>
+      <main className="flex-1 p-6">{children}</main>
     </div>
   );
 }

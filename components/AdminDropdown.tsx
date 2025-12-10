@@ -10,6 +10,7 @@ import { useGSAP } from "@gsap/react";
 // import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 interface UserDropdownProps {
   isOpen: boolean;
@@ -58,9 +59,9 @@ export default function AdminDropdown({ isOpen }: UserDropdownProps) {
         ref={userDropdownRef}
         className="w-fit h-0 bg-white font-normal absolute top-[100%] right-0 overflow-hidden hidden rounded-2xl border border-gray-200 z-50"
       >
-        <button onClick={onClick} type="submit" className="cursor-pointer">
+        <Button variant={"outline"} className="cursor-pointer">
           <Link href="/admin">Admin Dashboard</Link>
-        </button>
+        </Button>
       </div>
     </>
   );

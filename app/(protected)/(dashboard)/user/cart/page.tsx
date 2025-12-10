@@ -1,7 +1,9 @@
+import CartPage from "@/app/(pages)/cart/page";
+
 export default function CartTab() {
   return (
     <>
-      <h1>Cart</h1>
+      <CartPage />
     </>
   );
 }

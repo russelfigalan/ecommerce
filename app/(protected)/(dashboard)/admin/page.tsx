@@ -1,23 +1,14 @@
-"use client";
+import StatsCards from "../_components/StatsCards";
+import EarningsChart from "../_components/EarningsChart";
 
-import { useCurrentUser } from "@/hooks/use-current-user";
-// import { useSession } from "next-auth/react";
-import { logout } from "@/actions/logout";
-
-export default function Dashboard() {
-  const user = useCurrentUser();
-  // const session = useSession();
-
-  const onClick = () => {
-    logout();
-  };
-
+export default function AdminPage() {
   return (
-    <>
-      {JSON.stringify(user?.role)}
-      <button onClick={onClick} type="submit">
-        Sign Out
-      </button>
-    </>
+    <div className="space-y-10">
+      <StatsCards />
+
+      <div>
+        <EarningsChart />
+      </div>
+    </div>
   );
 }
