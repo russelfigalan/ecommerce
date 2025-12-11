@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   BarChart,
   Bar,
@@ -28,7 +29,7 @@ export default function EarningsChart() {
   }, []);
 
   return (
-    <div className="w-full h-[350px] bg-white dark:bg-neutral-900 p-4 rounded-xl">
+    <div className="w-full h-fit bg-white dark:bg-neutral-900 p-4 rounded-xl">
       <h2 className="text-xl font-bold mb-4">Earnings</h2>
 
       <ResponsiveContainer width="100%" height="100%">

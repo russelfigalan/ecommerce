@@ -1,21 +1,19 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 interface MonthlyEarning {
   month: string;
   earnings: number;
 }
 
-export default function MonthlyEarningsTable() {
-  const [data, setData] = useState<MonthlyEarning[]>([]);
+async function fetchEarningsData() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/earnings-data`
+  );
+  const result = await response.json();
 
-  useEffect(() => {
-    fetch("/api/admin/earnings-data")
-      .then((r) => r.json())
-      .then((d) => setData(d?.monthly ?? []))
-      .catch(() => setData([]));
-  }, []);
+  return result.monthly as MonthlyEarning[];
+}
+
+export default async function MonthlyEarningsTable() {
+  const data = await fetchEarningsData();
 
   return (
     <div className="overflow-x-auto">

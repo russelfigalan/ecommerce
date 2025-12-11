@@ -1,9 +1,14 @@
 "use client";
 
+import { useRef } from "react";
+import { gsap } from "gsap/gsap-core";
+import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BarChart3, ShoppingBag, Users, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { logout } from "@/actions/logout";
 
 const links = [
   { name: "Dashboard", href: "/admin", icon: Home },
@@ -12,11 +17,35 @@ const links = [
   { name: "Products (Stripe)", href: "/admin/products", icon: ShoppingBag },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
+}) {
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
+  useGSAP(
+    () => {
+      if (!sidebarRef.current) return;
+
+      gsap.to(sidebarRef.current, {
+        x: open ? 0 : -300,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    { dependencies: [open] }
+  );
+
   return (
-    <aside className="w-64 bg-white dark:bg-neutral-950 shadow-sm p-4 flex flex-col">
+    <aside
+      ref={sidebarRef}
+      className="fixed top-0 left-0 h-full bg-white dark:bg-neutral-950 shadow-sm p-4 flex flex-col space-y-4 w-64   z-50"
+      style={{ transform: "translateX(-300px" }}
+    >
       <h1 className="text-2xl font-bold mb-6">Admin</h1>
 
       <nav className="space-y-2">
@@ -41,6 +70,16 @@ export default function Sidebar() {
           );
         })}
       </nav>
+      {/* <form action="/api/auth/signout" method="POST"> */}
+      <Button
+        onClick={logout}
+        type="submit"
+        variant="outline"
+        className="cursor-pointer"
+      >
+        Sign Out As Admin
+      </Button>
+      {/* </form> */}
     </aside>
   );
 }
