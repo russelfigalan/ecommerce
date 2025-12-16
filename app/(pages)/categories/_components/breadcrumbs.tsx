@@ -17,15 +17,6 @@ export function BreadCrumb() {
   const breadcrumbspath = pathname
     ?.split("/")
     .filter((segment) => segment !== "");
-  const [lastItem, setLastItem] = useState<boolean>(false);
-
-  useEffect(() => {
-    breadcrumbspath.map((_, index, array) => {
-      if (index === array.length - 1) {
-        setLastItem(true);
-      }
-    });
-  }, [lastItem, breadcrumbspath]);
 
   return (
     <>
@@ -38,7 +29,7 @@ export function BreadCrumb() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           {breadcrumbspath.map((data, index) => {
-            const href = `/${breadcrumbspath[0]}/${decodeURIComponent(data)}`;
+            const href = `/${breadcrumbspath.slice(0, index + 1).join("/")}`;
 
             return (
               <React.Fragment key={index}>
@@ -53,7 +44,7 @@ export function BreadCrumb() {
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
-                {index === breadcrumbspath.length - 1 ? null : (
+                {index !== breadcrumbspath.length - 1 && (
                   <BreadcrumbSeparator />
                 )}
               </React.Fragment>

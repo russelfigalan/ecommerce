@@ -11,13 +11,13 @@ interface Props {
 const CategorySection = async ({ params }: Props) => {
   const { category, subcategory } = await params;
   const products = await getProducts();
-
+  const categoryDecoded = decodeURIComponent(category);
   return (
     <>
       <h1 className="capitalize">Category: {decodeURIComponent(category)}</h1>
       <ProductCard
         products={products}
-        category={category}
+        category={categoryDecoded}
         subcategory={subcategory}
       />
     </>

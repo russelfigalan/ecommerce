@@ -1,8 +1,5 @@
 "use client";
 
-import { useRef } from "react";
-import { gsap } from "gsap/gsap-core";
-import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BarChart3, ShoppingBag, Users, Home } from "lucide-react";
@@ -18,34 +15,14 @@ const links = [
 ];
 
 export default function Sidebar({
-  open,
-  setOpen,
+  toggleSidebar,
 }: {
-  open: boolean;
-  setOpen: (v: boolean) => void;
+  toggleSidebar: () => void;
 }) {
-  const sidebarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  useGSAP(
-    () => {
-      if (!sidebarRef.current) return;
-
-      gsap.to(sidebarRef.current, {
-        x: open ? 0 : -300,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    },
-    { dependencies: [open] }
-  );
-
   return (
-    <aside
-      ref={sidebarRef}
-      className="fixed top-0 left-0 h-full bg-white dark:bg-neutral-950 shadow-sm p-4 flex flex-col space-y-4 w-64   z-50"
-      style={{ transform: "translateX(-300px" }}
-    >
+    <>
       <h1 className="text-2xl font-bold mb-6">Admin</h1>
 
       <nav className="space-y-2">
@@ -55,6 +32,7 @@ export default function Sidebar({
 
           return (
             <Link
+              onClick={toggleSidebar}
               key={link.href}
               href={link.href}
               className={cn(
@@ -80,6 +58,6 @@ export default function Sidebar({
         Sign Out As Admin
       </Button>
       {/* </form> */}
-    </aside>
+    </>
   );
 }

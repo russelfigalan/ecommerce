@@ -218,7 +218,7 @@ export const CategoryList = () => {
             <NavigationMenuItem>
               <NavigationMenuTrigger>
                 <Link
-                  href={`/categories/${categoryTitle[3]?.title.toLowerCase().replaceAll(" ", "-")}`}
+                  href={`/categories/${categoryTitle[3]?.title.toLowerCase().replaceAll("-", " ")}`}
                 >
                   {categoryTitle[3]?.title}
                 </Link>
@@ -234,7 +234,7 @@ export const CategoryList = () => {
                           <NavigationMenuLink asChild>
                             <Link
                               key={name}
-                              href={`/categories/${categoryTitle[3]?.title.toLowerCase().replaceAll(" ", "-")}/${slug}`}
+                              href={`/categories/${categoryTitle[3]?.title.toLowerCase().replaceAll("-", " ")}/${slug}`}
                             >
                               {name}
                             </Link>
